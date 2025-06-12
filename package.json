@@ -4,9 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon src/index.js",
-    "start": "node src/index.js",
-    "build": "node src/index.js"
+    "dev": "nodemon api/index.js",
+    "start": "node api/index.js",
+    "build": "node api/index.js"
   },
   "keywords": [],
   "author": "",

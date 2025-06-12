@@ -5,10 +5,10 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 
-import authRoutes from '../src/routes/authRoutes.js';
-import listingRoutes from '../src/routes/listingRoutes.js';
-import errorHandler from '../src/middlewares/errMid.js';
-import connectDB from '../src/config/db.js';
+import authRoutes from '../routes/authRoutes.js';
+import listingRoutes from '../routes/listingRoutes.js';
+import errorHandler from '../middlewares/errMid.js';
+import connectDB from '../config/db.js';
 
 dotenv.config();
 
@@ -29,33 +29,9 @@ const initDB = async () => {
 const app = express();
 
 
-// const allowedOrigins = [
-//   'https://ramos-client.vercel.app',
-// ];
-
-// app.use(cors({
-//   origin: function (origin, callback) {
-//     if (!origin || allowedOrigins.includes(origin)) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error('Not allowed by CORS'));
-//     }
-//   },
-//   credentials: true,
-// }));
-
-// app.options('*', cors()); // Handle preflight
-
-
-
-
-
-
-
 const allowedOrigins = [
     'https://ramos-client.vercel.app'
 ]
-   
 
 app.use(
     cors({
@@ -69,9 +45,9 @@ app.use(
         credentials: true,
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
         allowedHeaders: ['Content-Type', 'Authorization'],
+        optionsSuccessStatus: 200,
     })
 );
-
 
 
 app.use(helmet());
