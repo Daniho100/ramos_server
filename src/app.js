@@ -26,15 +26,15 @@ import errorHandler from './middlewares/errMid.js'; // Adjust path
 
 const app = express();
 
-const corsOptions = {
-  origin: 'https://ramos-client.vercel.app', // Exact origin match
-  credentials: true, // Allows cookies/auth credentials to be sent
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Headers the client can send
-  exposedHeaders: ['Content-Length', 'X-Custom-Header'], // Headers the client can access
-  optionsSuccessStatus: 200, // Responds with 200 for OPTIONS preflight
-};
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: 'https://ramos-client.vercel.app', // Exact origin match
+//   credentials: true, // Allows cookies/auth credentials to be sent
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
+//   allowedHeaders: ['Content-Type', 'Authorization'], // Headers the client can send
+//   exposedHeaders: ['Content-Length', 'X-Custom-Header'], // Headers the client can access
+//   optionsSuccessStatus: 200, // Responds with 200 for OPTIONS preflight
+// };
+app.use(cors());
 
 
 
