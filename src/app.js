@@ -1,42 +1,22 @@
-// import express from 'express';
-// import cors from 'cors';
-// import helmet from 'helmet';
-// import morgan from 'morgan';
-// import authRoutes from './routes/authRoutes.js';
-// import listingRoutes from './routes/listingRoutes.js';
-// import errorHandler from './middlewares/errMid.js';
-
-
-
-
-
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import authRoutes from './routes/authRoutes.js'; // Adjust path
-import listingRoutes from './routes/listingRoutes.js'; // Adjust path
-import errorHandler from './middlewares/errMid.js'; // Adjust path
-
-// Rest of the code remains the same
-
-
-
-
+import authRoutes from './routes/authRoutes.js';
+import listingRoutes from './routes/listingRoutes.js';
+import errorHandler from './middlewares/errMid.js';
 
 const app = express();
 
-// const corsOptions = {
-//   origin: 'https://ramos-client.vercel.app', // Exact origin match
-//   credentials: true, // Allows cookies/auth credentials to be sent
-//   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
-//   allowedHeaders: ['Content-Type', 'Authorization'], // Headers the client can send
-//   exposedHeaders: ['Content-Length', 'X-Custom-Header'], // Headers the client can access
-//   optionsSuccessStatus: 200, // Responds with 200 for OPTIONS preflight
-// };
-app.use(cors());
-
-
+const corsOptions = {
+  origin: 'https://ramos-client.vercel.app', // Exact origin match
+  credentials: true, // Required for Authorization header and cookies
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Include OPTIONS for preflight
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allow Authorization header
+  exposedHeaders: ['Content-Length', 'X-Custom-Header'], // Optional, for client access
+  optionsSuccessStatus: 200, // Ensure OPTIONS returns 200
+};
+app.use(cors(corsOptions));
 
 app.use(helmet({
   contentSecurityPolicy: {
@@ -56,10 +36,8 @@ app.use(helmet({
   noSniff: true,
 }));
 
-// Body Parsers
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 
 morgan.token('remote-addr', (req) => req.ip);
 morgan.token('timestamp', () => new Date().toISOString());
@@ -69,31 +47,25 @@ app.use(morgan(':method :url :status - :res[content-length] bytes - :response-ti
   skip: (req) => req.url.includes('favicon.ico'),
 }));
 
-// Request Logger
 app.use((req, res, next) => {
   console.log(`Incoming request: ${req.method} ${req.url}`);
   next();
 });
 
-// Routes
 try {
   app.use('/api/listings', listingRoutes);
-  // console.log('Listing routes registered successfully');
 } catch (error) {
   console.error('Error registering listing routes:', error.stack);
 }
 
 try {
-  // console.log('Registering auth routes...');
   app.use('/api/auth', authRoutes);
 } catch (error) {
   console.error('Error registering auth routes:', error.stack);
 }
 
-// Error Handler
 app.use(errorHandler);
 
-// Fallback Route
 app.use('*', (req, res) => {
   console.log(`Fallback route hit: ${req.method} ${req.url}`);
   res.status(404).json({ message: 'Route not found' });
