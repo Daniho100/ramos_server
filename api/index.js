@@ -28,6 +28,35 @@ const initDB = async () => {
 // Create Express app
 const app = express();
 
+
+const allowedOrigins = [
+  'https://ramos-client.vercel.app',
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+}));
+
+app.options('*', cors()); // Handle preflight
+
+
+
+
+
+
+
+
+
+
+
+
 // CORS & Security
 app.use(cors({
   origin: 'https://ramos-client.vercel.app',
