@@ -26,7 +26,7 @@ const initDB = async () => {
 // Create Express app
 const app = express();
 
-const allowedOrigins = ['https://ramos-client.vercel.app'];
+const allowedOrigins = ['https://ramos-client.onrender.com'];
 
 app.use(
   cors({
