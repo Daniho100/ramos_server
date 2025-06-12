@@ -1,10 +1,28 @@
+// import express from 'express';
+// import cors from 'cors';
+// import helmet from 'helmet';
+// import morgan from 'morgan';
+// import authRoutes from './routes/authRoutes.js';
+// import listingRoutes from './routes/listingRoutes.js';
+// import errorHandler from './middlewares/errMid.js';
+
+
+
+
+
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import authRoutes from './routes/authRoutes.js';
-import listingRoutes from './routes/listingRoutes.js';
-import errorHandler from './middlewares/errMid.js';
+import authRoutes from './routes/authRoutes.js'; // Adjust path
+import listingRoutes from './routes/listingRoutes.js'; // Adjust path
+import errorHandler from './middlewares/errMid.js'; // Adjust path
+
+// Rest of the code remains the same
+
+
+
+
 
 const app = express();
 
@@ -26,7 +44,7 @@ app.use(helmet({
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
       imgSrc: ["'self'", "data:", "https://*"],
-      connectSrc: ["'self'", "http://localhost:5173"],
+      connectSrc: ["'self'", "https://ramos-client.vercel.app"],
     },
   },
   referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
@@ -57,17 +75,15 @@ app.use((req, res, next) => {
 
 // Routes
 try {
-  console.log('Registering listing routes...');
   app.use('/api/listings', listingRoutes);
-  console.log('Listing routes registered successfully');
+  // console.log('Listing routes registered successfully');
 } catch (error) {
   console.error('Error registering listing routes:', error.stack);
 }
 
 try {
-  console.log('Registering auth routes...');
+  // console.log('Registering auth routes...');
   app.use('/api/auth', authRoutes);
-  console.log('Auth routes registered successfully');
 } catch (error) {
   console.error('Error registering auth routes:', error.stack);
 }
@@ -79,23 +95,6 @@ app.use(errorHandler);
 app.use('*', (req, res) => {
   console.log(`Fallback route hit: ${req.method} ${req.url}`);
   res.status(404).json({ message: 'Route not found' });
-});
-
-// Log all routes
-console.log('Registered middleware and routes:');
-app._router.stack.forEach((layer, index) => {
-  if (layer.route) {
-    console.log(`Layer ${index}: Route ${layer.route.path}`);
-  } else if (layer.name === 'router' && layer.handle.stack) {
-    console.log(`Layer ${index}: Router ${layer.regexp}`);
-    layer.handle.stack.forEach((handler, handlerIndex) => {
-      if (handler.route) {
-        console.log(`  Handler ${handlerIndex}: ${handler.route.path} (${Object.keys(handler.route.methods).join(', ')})`);
-      }
-    });
-  } else {
-    console.log(`Layer ${index}: ${layer.name || 'anonymous'}`);
-  }
 });
 
 export default app;
