@@ -14,11 +14,12 @@ const router = express.Router();
 
 // Public routes
 router.get('/', getAllListings); 
-router.get('/user/:userId', getListingsByUser); 
-router.get('/user/:userId/:listingId', getUserListingById); 
 router.get('/:id', getListingById);
 
 // Protected routes
+
+router.get('/user/:userId', authMiddleware, getListingsByUser); 
+router.get('/user/:userId/:listingId', authMiddleware, getUserListingById); 
 router.post('/create', authMiddleware, createListing); 
 router.put('/:id', authMiddleware, updateListing); 
 router.delete('/:id', authMiddleware, deleteListing); 
