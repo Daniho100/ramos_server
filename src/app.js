@@ -8,6 +8,27 @@ import errorHandler from './middlewares/errMid.js';
 
 const app = express();
 
+
+
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'https://ramos-client.vercel.app');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Max-Age', '86400'); // Cache preflight for 24 hours
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end(); // Handle preflight immediately
+  }
+
+  next();
+});
+
+
+
+
+
 const corsOptions = {
   origin: 'https://ramos-client.vercel.app', // Exact origin match
   credentials: true, // Required for Authorization header and cookies
