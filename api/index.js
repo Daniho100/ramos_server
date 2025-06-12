@@ -52,9 +52,10 @@ const app = express();
 
 
 
-const allowedOrigins = config.NODE_ENV === 'production'
-    ? ['https://ramos-client.vercel.app']
-    : ['http://localhost:5000',];
+const allowedOrigins = [
+    'https://ramos-client.vercel.app'
+]
+   
 
 app.use(
     cors({
