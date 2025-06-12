@@ -29,27 +29,27 @@ const initDB = async () => {
 const app = express();
 
 
-const allowedOrigins = [
-    'https://ramos-client.vercel.app'
-]
+// const allowedOrigins = [
+//     'https://ramos-client.vercel.app'
+// ]
 
-app.use(
-    cors({
-        origin: (origin, callback) => {
-            if (!origin || allowedOrigins.includes(origin)) {
-                callback(null, true);
-            } else {
-                callback(new Error('Not allowed by CORS'));
-            }
-        },
-        credentials: true,
-        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-        allowedHeaders: ['Content-Type', 'Authorization'],
-        optionsSuccessStatus: 200,
-    })
-);
+// app.use(
+//     cors({
+//         origin: (origin, callback) => {
+//             if (!origin || allowedOrigins.includes(origin)) {
+//                 callback(null, true);
+//             } else {
+//                 callback(new Error('Not allowed by CORS'));
+//             }
+//         },
+//         credentials: true,
+//         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//         allowedHeaders: ['Content-Type', 'Authorization'],
+//         optionsSuccessStatus: 200,
+//     })
+// );
 
-
+app.use(cors())
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
