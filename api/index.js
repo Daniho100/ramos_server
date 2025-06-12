@@ -29,24 +29,22 @@ const initDB = async () => {
 const app = express();
 
 
-const allowedOrigins = [
-  'https://ramos-client.vercel.app',
-];
+// const allowedOrigins = [
+//   'https://ramos-client.vercel.app',
+// ];
 
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-}));
+// app.use(cors({
+//   origin: function (origin, callback) {
+//     if (!origin || allowedOrigins.includes(origin)) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error('Not allowed by CORS'));
+//     }
+//   },
+//   credentials: true,
+// }));
 
-app.options('*', cors()); // Handle preflight
-
-
+// app.options('*', cors()); // Handle preflight
 
 
 
@@ -54,14 +52,25 @@ app.options('*', cors()); // Handle preflight
 
 
 
+const allowedOrigins = config.NODE_ENV === 'production'
+    ? ['https://ramos-client.vercel.app']
+    : ['http://localhost:5000',];
 
+app.use(
+    cors({
+        origin: (origin, callback) => {
+            if (!origin || allowedOrigins.includes(origin)) {
+                callback(null, true);
+            } else {
+                callback(new Error('Not allowed by CORS'));
+            }
+        },
+        credentials: true,
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
+    })
+);
 
-
-// CORS & Security
-app.use(cors({
-  origin: 'https://ramos-client.vercel.app',
-  credentials: true,
-}));
 
 
 app.use(helmet());
