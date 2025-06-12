@@ -27,7 +27,7 @@ import errorHandler from './middlewares/errMid.js'; // Adjust path
 const app = express();
 
 const corsOptions = {
-  origin: 'https://ramos-client.vercel.app/',
+  origin: 'https://ramos-client.vercel.app',
   optionsSuccessStatus: 200,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
