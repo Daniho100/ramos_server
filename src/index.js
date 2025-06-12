@@ -64,8 +64,8 @@ app.use('*', (req, res) => {
 // Initialize MongoDB and start server
 const startServer = async () => {
   await initDB();
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => {
+  const PORT = process.env.PORT || 10000; // Use Render's port or default
+  app.listen(PORT, '0.0.0.0', () => { // Bind to 0.0.0.0
     console.log(`✅ Server running on port ${PORT}`);
   });
 };
