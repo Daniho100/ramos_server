@@ -31,7 +31,7 @@ const createListing = async(req, res, next) => {
 const getAllListings = async(req, res, next) => {
   console.log('GET /api/listings hit');
   try {
-    const listings = await Listing.find()
+    const listings = await Listing.find().limit(10)
       .populate('user', 'name email')
       .sort({ createdAt: -1 });
 
@@ -45,7 +45,7 @@ const getListingsByUser = async(req, res, next) => {
   console.log('GET /api/listings/user/:userId hit');
   try {
     const { userId } = req.params;
-    const listings = await Listing.find({ user: userId }).populate('user', 'name email');
+    const listings = await (await Listing.find({ user: userId })).limit(10).populate('user', 'name email');
     res.status(200).json(listings);
   } catch (error) {
     next(error);
